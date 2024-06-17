@@ -10,9 +10,6 @@ controllerManager:
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
     tag: ""
-    imagePullSecrets: registry-credentials
-
-  imagePullSecrets: registry-credentials
 
   resources: {}
     # We usually recommend not to specify default resources and to leave this as a conscious
@@ -33,12 +30,39 @@ controllerManager:
     targetCPUUtilizationPercentage: 80
     # targetMemoryUtilizationPercentage: 80
 
-  # Additional volumes on the output Deployment definition.
-  volumes: []
+  # Additional volumeMounts on the output Deployment definition.
+  volumeMounts: []
   # - name: foo
-  #   secret:
-  #     secretName: mysecret
-  #     optional: false
+  #   mountPath: "/etc/foo"
+  #   readOnly: true
+
+proxy:
+  replicaCount: 1
+
+  image:
+    repository: gcr.io/kubebuilder/kube-rbac-proxy
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: v0.15.0
+
+  resources:
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    limits:
+      cpu: 500m
+      memory: 128Mi
+    requests:
+      cpu: 5m
+      memory: 64Mi
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
 
   # Additional volumeMounts on the output Deployment definition.
   volumeMounts: []
@@ -46,14 +70,30 @@ controllerManager:
   #   mountPath: "/etc/foo"
   #   readOnly: true
 
-  nodeSelector: {}
+  securityContext:
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+      - ALL
 
-  tolerations: []
+# Additional volumes on the output Deployment definition.
+volumes: []
+# - name: foo
+#   secret:
+#     secretName: mysecret
+#     optional: false
 
-  affinity: {}
+nodeSelector: {}
 
-  serviceAccount:
+tolerations: []
+
+affinity: {}
+
+serviceAccount:
     annotations: {}
 
-repoEnvvarConfigmapScraperMd2D926D4B:
+imagePullSecrets: 
+  - name: registry-credentials
+
+repoEnvvarConfigmapScraper:
   repo: ghcr.io/krateoplatformops

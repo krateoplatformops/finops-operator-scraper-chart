@@ -1,8 +1,8 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "finops-operator-scraper-chart.fullname" . }}-repo-envvar-configmap-scraper-md2d926d4b
+  name: {{ include "finops-operator-scraper-chart.fullname" . }}-repo-envvar
   labels:
   {{- include "finops-operator-scraper-chart.labels" . | nindent 4 }}
 data:
-  REPO: {{ .Values.repoEnvvarConfigmapScraperMd2D926D4B.repo | quote }}
+  REPO: {{ .Values.repoEnvvarConfigmapScraper.repo | quote }}

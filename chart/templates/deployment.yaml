@@ -32,24 +32,22 @@ spec:
         env:
         - name: KUBERNETES_CLUSTER_DOMAIN
           value: {{ quote .Values.kubernetesClusterDomain }}
-        image: gcr.io/kubebuilder/kube-rbac-proxy:v0.15.0
+        image: {{ .Values.proxy.image.repository }}:{{
+          .Values.proxy.image.tag | default .Chart.AppVersion
+          }}
         name: kube-rbac-proxy
         ports:
         - containerPort: 8443
           name: https
           protocol: TCP
-        resources:
-          limits:
-            cpu: 500m
-            memory: 128Mi
-          requests:
-            cpu: 5m
-            memory: 64Mi
-        securityContext:
-          allowPrivilegeEscalation: false
-          capabilities:
-            drop:
-            - ALL
+        resources: {{- toYaml .Values.proxy.resources
+          | nindent 10 }}
+        {{- with .Values.proxy.volumeMounts }}
+        volumeMounts:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        securityContext: {{- toYaml .Values.proxy.containerSecurityContext
+          | nindent 10 }}
       - args:
         - --health-probe-bind-address=:8081
         - --leader-elect
@@ -64,7 +62,7 @@ spec:
           value: {{ quote .Values.kubernetesClusterDomain }}
         envFrom:
         - configMapRef:
-            name: {{ include "finops-operator-scraper-chart.fullname" . }}-repo-envvar-configmap-scraper-md2d926d4b
+            name: {{ include "finops-operator-scraper-chart.fullname" . }}-repo-envvar
         image: {{ .Values.controllerManager.image.repository }}:{{
           .Values.controllerManager.image.tag | default .Chart.AppVersion
           }}
@@ -83,29 +81,33 @@ spec:
             port: 8081
           initialDelaySeconds: 5
           periodSeconds: 10
+        {{- with .Values.controllerManager.volumeMounts }}
+        volumeMounts:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
         resources: {{- toYaml .Values.controllerManager.resources
           | nindent 10 }}
         securityContext: {{- toYaml .Values.controllerManager.containerSecurityContext
           | nindent 10 }}
-      imagePullSecrets:
-      - name: {{ .Values.controllerManager.imagePullSecrets }}
+      imagePullSecrets: {{- toYaml .Values.imagePullSecrets
+          | nindent 6 }}
       securityContext:
         runAsNonRoot: true
       serviceAccountName: {{ include "finops-operator-scraper-chart.fullname" . }}-controller-manager
       terminationGracePeriodSeconds: 10
-      {{- with .Values.controllerManager.volumes }}
+      {{- with .Values.volumes }}
       volumes:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.controllerManager.nodeSelector }}
+      {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.controllerManager.affinity }}
+      {{- with .Values.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.controllerManager.tolerations }}
+      {{- with .Values.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}

@@ -1,7 +1,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: {{ include "finops-operator-scraper-chart.fullname" . }}-leader-election-role
+  name: {{ include "finops-operator-scraper-chart.fullname" . }}-leader-election
   labels:
     app.kubernetes.io/component: rbac
     app.kubernetes.io/created-by: operator-scraper
@@ -43,7 +43,7 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: {{ include "finops-operator-scraper-chart.fullname" . }}-manager-role
+  name: {{ include "finops-operator-scraper-chart.fullname" . }}-manager
   labels:
   {{- include "finops-operator-scraper-chart.labels" . | nindent 4 }}
 rules:
@@ -96,7 +96,7 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: {{ include "finops-operator-scraper-chart.fullname" . }}-proxy-role
+  name: {{ include "finops-operator-scraper-chart.fullname" . }}-proxy
   labels:
     app.kubernetes.io/component: kube-rbac-proxy
     app.kubernetes.io/created-by: operator-scraper
