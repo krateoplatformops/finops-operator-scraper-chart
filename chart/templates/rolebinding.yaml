@@ -1,0 +1,53 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ include "finops-operator-scraper-chart.fullname" . }}-leader-election-rolebinding
+  labels:
+    app.kubernetes.io/component: rbac
+    app.kubernetes.io/created-by: operator-scraper
+    app.kubernetes.io/part-of: operator-scraper
+  {{- include "finops-operator-scraper-chart.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: '{{ include "finops-operator-scraper-chart.fullname" . }}-leader-election-role'
+subjects:
+- kind: ServiceAccount
+  name: {{ include "finops-operator-scraper-chart.fullname" . }}-controller-manager
+  namespace: '{{ .Release.Namespace }}'
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ include "finops-operator-scraper-chart.fullname" . }}-manager-rolebinding
+  labels:
+    app.kubernetes.io/component: rbac
+    app.kubernetes.io/created-by: operator-scraper
+    app.kubernetes.io/part-of: operator-scraper
+  {{- include "finops-operator-scraper-chart.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: '{{ include "finops-operator-scraper-chart.fullname" . }}-manager-role'
+subjects:
+- kind: ServiceAccount
+  name: {{ include "finops-operator-scraper-chart.fullname" . }}-controller-manager
+  namespace: '{{ .Release.Namespace }}'
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ include "finops-operator-scraper-chart.fullname" . }}-proxy-rolebinding
+  labels:
+    app.kubernetes.io/component: kube-rbac-proxy
+    app.kubernetes.io/created-by: operator-scraper
+    app.kubernetes.io/part-of: operator-scraper
+  {{- include "finops-operator-scraper-chart.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: '{{ include "finops-operator-scraper-chart.fullname" . }}-proxy-role'
+subjects:
+- kind: ServiceAccount
+  name: {{ include "finops-operator-scraper-chart.fullname" . }}-controller-manager
+  namespace: '{{ .Release.Namespace }}'
