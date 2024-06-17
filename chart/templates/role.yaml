@@ -1,0 +1,117 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ include "finops-operator-scraper-chart.fullname" . }}-leader-election
+  labels:
+    app.kubernetes.io/component: rbac
+    app.kubernetes.io/created-by: operator-scraper
+    app.kubernetes.io/part-of: operator-scraper
+  {{- include "finops-operator-scraper-chart.labels" . | nindent 4 }}
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+- apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ include "finops-operator-scraper-chart.fullname" . }}-manager
+  labels:
+  {{- include "finops-operator-scraper-chart.labels" . | nindent 4 }}
+rules:
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  verbs:
+  - create
+  - get
+  - list
+  - update
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - create
+  - get
+  - list
+  - update
+- apiGroups:
+  - finops.krateo.io
+  resources:
+  - scraperconfigs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - finops.krateo.io
+  resources:
+  - scraperconfigs/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - finops.krateo.io
+  resources:
+  - scraperconfigs/status
+  verbs:
+  - get
+  - patch
+  - update
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ include "finops-operator-scraper-chart.fullname" . }}-proxy
+  labels:
+    app.kubernetes.io/component: kube-rbac-proxy
+    app.kubernetes.io/created-by: operator-scraper
+    app.kubernetes.io/part-of: operator-scraper
+  {{- include "finops-operator-scraper-chart.labels" . | nindent 4 }}
+rules:
+- apiGroups:
+  - authentication.k8s.io
+  resources:
+  - tokenreviews
+  verbs:
+  - create
+- apiGroups:
+  - authorization.k8s.io
+  resources:
+  - subjectaccessreviews
+  verbs:
+  - create
