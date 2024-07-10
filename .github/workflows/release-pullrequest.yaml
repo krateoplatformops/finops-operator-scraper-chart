@@ -1,4 +1,4 @@
-name: test-release
+name: release-pullrequest
 
 on:
   pull_request:
@@ -16,14 +16,14 @@ jobs:
         with:
           repo: https://${{ secrets.HELM_CHARTS_BOT }}@github.com/krateoplatformops/finops-operator-scraper.git
 
+      - name: Print latest App Version
+        run: echo ${{ steps.app_version.outputs.tag }}
+
       - name: Checkout
         uses: actions/checkout@v3
 
       - name: Replace Version in Chart.yaml
         run: sed -i 's/CHART_VERSION/${{ steps.app_version.outputs.tag }}/g' ./chart/Chart.yaml
-
-      - name: Print latest App Version
-        run: echo ${{ steps.app_version.outputs.tag }}
 
       - name: Replace App Version in Chart.yaml
         run: sed -i 's/APP_VERSION/${{ steps.app_version.outputs.tag }}/g' ./chart/Chart.yaml
