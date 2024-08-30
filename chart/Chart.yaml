@@ -1,6 +1,6 @@
 apiVersion: v2
 name: finops-operator-scraper
-description: A Helm chart for Kubernetes
+description: Krateo PlatformOps FinOps Operator Scraper
 
 # A chart can be either an 'application' or a 'library' chart.
 #
