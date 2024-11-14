@@ -38,6 +38,9 @@ spec:
             type: object
           spec:
             properties:
+              metricType:
+                default: cost
+                type: string
               pollingIntervalHours:
                 type: integer
               scraperDatabaseConfigRef:
@@ -183,14 +186,10 @@ spec:
                     type: string
                 type: object
                 x-kubernetes-map-type: atomic
-              metricType:
-                default: cost
-                type: string
-            required:
-            - metricType
             type: object
         type: object
     served: true
     storage: true
     subresources:
       status: {}
+
