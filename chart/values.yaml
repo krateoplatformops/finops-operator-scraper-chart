@@ -95,5 +95,7 @@ serviceAccount:
 imagePullSecrets: 
   - name: registry-credentials
 
-repoEnvvarConfigmapScraper:
-  repo: ghcr.io/krateoplatformops
+env:
+  REGISTRY: ghcr.io/krateoplatformops
+  REGISTRY_CREDENTIALS: registry-credentials
+  URL_DB_WEBSERVICE: http://finops-db-webservice.finops:8088/upload

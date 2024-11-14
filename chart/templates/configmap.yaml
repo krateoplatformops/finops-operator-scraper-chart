@@ -5,4 +5,6 @@ metadata:
   labels:
   {{- include "finops-operator-scraper-chart.labels" . | nindent 4 }}
 data:
-  REPO: {{ .Values.repoEnvvarConfigmapScraper.repo | quote }}
+  REGISTRY: {{ .Values.env.REGISTRY | quote }}
+  REGISTRY_CREDENTIALS: {{ .Values.env.REGISTRY_CREDENTIALS | quote }}
+  URL_DB_WEBSERVICE: {{ .Values.env.DB_SERVICE | quote }}
