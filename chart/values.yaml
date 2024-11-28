@@ -36,46 +36,6 @@ controllerManager:
   #   mountPath: "/etc/foo"
   #   readOnly: true
 
-proxy:
-  replicaCount: 1
-
-  image:
-    repository: gcr.io/kubebuilder/kube-rbac-proxy
-    pullPolicy: IfNotPresent
-    # Overrides the image tag whose default is the chart appVersion.
-    tag: v0.15.0
-
-  resources:
-    # We usually recommend not to specify default resources and to leave this as a conscious
-    # choice for the user. This also increases chances charts run on environments with little
-    # resources, such as Minikube. If you do want to specify resources, uncomment the following
-    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-    limits:
-      cpu: 500m
-      memory: 128Mi
-    requests:
-      cpu: 5m
-      memory: 64Mi
-
-  autoscaling:
-    enabled: false
-    minReplicas: 1
-    maxReplicas: 100
-    targetCPUUtilizationPercentage: 80
-    # targetMemoryUtilizationPercentage: 80
-
-  # Additional volumeMounts on the output Deployment definition.
-  volumeMounts: []
-  # - name: foo
-  #   mountPath: "/etc/foo"
-  #   readOnly: true
-
-  securityContext:
-    allowPrivilegeEscalation: false
-    capabilities:
-      drop:
-      - ALL
-
 # Additional volumes on the output Deployment definition.
 volumes: []
 # - name: foo
@@ -99,3 +59,5 @@ env:
   REGISTRY: ghcr.io/krateoplatformops
   REGISTRY_CREDENTIALS: registry-credentials
   URL_DB_WEBSERVICE: http://finops-db-webservice.finops:8088
+  POLLING_INTERVAL: 300
+  MAX_RECONCILE_RATE: 1

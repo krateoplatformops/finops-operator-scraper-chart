@@ -53,6 +53,7 @@ rules:
   - deployments
   verbs:
   - create
+  - delete
   - get
   - list
   - update
@@ -63,6 +64,7 @@ rules:
   - configmaps
   verbs:
   - create
+  - delete
   - get
   - list
   - update
@@ -92,26 +94,3 @@ rules:
   - get
   - patch
   - update
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
-metadata:
-  name: {{ include "finops-operator-scraper-chart.fullname" . }}-proxy
-  labels:
-    app.kubernetes.io/component: kube-rbac-proxy
-    app.kubernetes.io/created-by: operator-scraper
-    app.kubernetes.io/part-of: operator-scraper
-  {{- include "finops-operator-scraper-chart.labels" . | nindent 4 }}
-rules:
-- apiGroups:
-  - authentication.k8s.io
-  resources:
-  - tokenreviews
-  verbs:
-  - create
-- apiGroups:
-  - authorization.k8s.io
-  resources:
-  - subjectaccessreviews
-  verbs:
-  - create

@@ -25,30 +25,6 @@ spec:
     spec:
       containers:
       - args:
-        - --secure-listen-address=0.0.0.0:8443
-        - --upstream=http://127.0.0.1:8080/
-        - --logtostderr=true
-        - --v=0
-        env:
-        - name: KUBERNETES_CLUSTER_DOMAIN
-          value: {{ quote .Values.kubernetesClusterDomain }}
-        image: {{ .Values.proxy.image.repository }}:{{
-          .Values.proxy.image.tag | default .Chart.AppVersion
-          }}
-        name: kube-rbac-proxy
-        ports:
-        - containerPort: 8443
-          name: https
-          protocol: TCP
-        resources: {{- toYaml .Values.proxy.resources
-          | nindent 10 }}
-        {{- with .Values.proxy.volumeMounts }}
-        volumeMounts:
-          {{- toYaml . | nindent 10 }}
-        {{- end }}
-        securityContext: {{- toYaml .Values.proxy.containerSecurityContext
-          | nindent 10 }}
-      - args:
         - --health-probe-bind-address=:8081
         - --leader-elect
         command:
