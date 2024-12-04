@@ -58,6 +58,6 @@ imagePullSecrets:
 env:
   REGISTRY: ghcr.io/krateoplatformops
   REGISTRY_CREDENTIALS: registry-credentials
-  URL_DB_WEBSERVICE: http://finops-db-webservice.finops:8088
+  URL_DB_WEBSERVICE: http://finops-database-handler.finops:8088
   POLLING_INTERVAL: 300
   MAX_RECONCILE_RATE: 1
