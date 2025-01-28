@@ -3,9 +3,6 @@ kind: Role
 metadata:
   name: {{ include "finops-operator-scraper-chart.fullname" . }}-leader-election
   labels:
-    app.kubernetes.io/component: rbac
-    app.kubernetes.io/created-by: operator-scraper
-    app.kubernetes.io/part-of: operator-scraper
   {{- include "finops-operator-scraper-chart.labels" . | nindent 4 }}
 rules:
 - apiGroups:
