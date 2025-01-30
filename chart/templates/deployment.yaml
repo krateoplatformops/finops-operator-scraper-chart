@@ -46,7 +46,7 @@ spec:
             value: {{ quote .Values.kubernetesClusterDomain }}
           envFrom:
             - configMapRef:
-                name: {{ include "finops-operator-scraper-chart.fullname" . }}-repo-envvar
+                name: {{ include "finops-operator-scraper-chart.fullname" . }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
