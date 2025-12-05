@@ -68,6 +68,16 @@ spec:
                     description: Verb is the request method (GET if omitted)
                     type: string
                 type: object
+              generic:
+                properties:
+                  metricName:
+                    type: string
+                  valueColumnIndex:
+                    type: integer
+                required:
+                - metricName
+                - valueColumnIndex
+                type: object
               metricType:
                 default: cost
                 type: string
