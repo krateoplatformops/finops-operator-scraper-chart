@@ -91,6 +91,7 @@ env:
   REGISTRY: ghcr.io/krateoplatformops
   REGISTRY_CREDENTIALS: registry-credentials
   URL_DB_WEBSERVICE: http://finops-database-handler.finops:8088
-  SCRAPER_VERSION: 0.4.1
+  SCRAPER_VERSION: 0.5.1
+  SCRAPER_NAME: finops-prometheus-scraper
   POLLING_INTERVAL: 300
   MAX_RECONCILE_RATE: 1
